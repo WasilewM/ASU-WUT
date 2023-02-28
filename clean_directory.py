@@ -49,7 +49,68 @@ class Md5FilesOrganizer:
         files_by_md5[md5_hash].append(file_path)
 
 
-def run(args) -> int:
+class EmptyFilesRemover:
+    def __init__(self, root_dir: str = ".") -> None:
+        self.root = root_dir
+
+    def remove_empty_files(self):
+        empty_files = self._find_empty_files(self.root)
+        print(f"empty_files: {empty_files}")
+        self._suggest_empty_files_removal(empty_files)
+        user_answer = self._has_user_accepted_file_removal()
+        if user_answer:
+            self._delete_empty_files(empty_files)
+
+    def _find_empty_files(self, root_dir: str) -> list:
+        empty_files = []
+        for f in os.listdir(root_dir):
+            file_path = os.path.join(root_dir, f)
+            if os.path.isfile(file_path):
+                self._handle_file(empty_files, file_path)
+            elif os.path.isdir(file_path):
+                self._handle_dir(empty_files, file_path)
+            else:
+                self._handle_unknown_obj(file_path)
+        return empty_files
+
+    def _handle_file(self, empty_files, file_path):
+        if os.path.getsize(file_path) == 0:
+            empty_files.append(file_path)
+
+    def _handle_dir(self, empty_files, file_path):
+        subdir_empty_files = self._find_empty_files(file_path)
+        subdir_empty_files = (
+                    subdir_empty_files if subdir_empty_files else []
+                )
+        empty_files += subdir_empty_files
+
+    def _handle_unknown_obj(self, file_path):
+        print(f"Object {file_path} could not be recognised.")
+        exit(1)
+
+    def _suggest_empty_files_removal(self, empty_files: list) -> None:
+        print("Do you want to delete following empty files?")
+        for file_path in empty_files:
+            print(file_path)
+        print("Y/N?")
+
+    def _has_user_accepted_file_removal(self) -> bool:
+        user_answer = input()
+        if user_answer in ("y", "Y"):
+            return True
+        elif user_answer in ("n", "N"):
+            return False
+        else:
+            print("Invalid option. Aborting the script...")
+            exit(1)
+
+    def _delete_empty_files(self, empty_files: list) -> None:
+        for file_path in empty_files:
+            os.remove(file_path)
+            print(f"{file_path} has been removed")
+
+
+def run(args: list) -> int:
     print("CWD: ", os.getcwd())
 
     if len(args) != 2:
@@ -59,55 +120,7 @@ def run(args) -> int:
     files_by_md5 = Md5FilesOrganizer(args[1]).organize_files()
     print(f"files_by_md5: {files_by_md5}")
 
-    empty_files = find_empty_files(args[1])
-    print(f"empty_files: {empty_files}")
-    suggest_empty_files_removal(empty_files)
-    user_answer = has_user_accepted_file_removal()
-    if user_answer:
-        delete_empty_files(empty_files)
-
-
-def find_empty_files(root_dir: str) -> list:
-    empty_files = []
-    for f in os.listdir(root_dir):
-        file_path = os.path.join(root_dir, f)
-        if os.path.isfile(file_path):
-            if os.path.getsize(file_path) == 0:
-                empty_files.append(file_path)
-        elif os.path.isdir(file_path):
-            subdir_empty_files = find_empty_files(file_path)
-            subdir_empty_files = (
-                subdir_empty_files if subdir_empty_files else []
-            )
-            empty_files += subdir_empty_files
-        else:
-            print(f"Object {file_path} could not be recognised.")
-            exit(1)
-    return empty_files
-
-
-def suggest_empty_files_removal(empty_files: list) -> None:
-    print("Do you want to delete following empty files?")
-    for file_path in empty_files:
-        print(file_path)
-    print("Y/N?")
-
-
-def has_user_accepted_file_removal() -> bool:
-    user_answer = input()
-    if user_answer in ("y", "Y"):
-        return True
-    elif user_answer in ("n", "N"):
-        return False
-    else:
-        print("Invalid option. Aborting the script...")
-        exit(1)
-
-
-def delete_empty_files(empty_files: list) -> None:
-    for file_path in empty_files:
-        os.remove(file_path)
-        print(f"{file_path} has been removed")
+    EmptyFilesRemover(args[1]).remove_empty_files()
 
 
 if __name__ == "__main__":
