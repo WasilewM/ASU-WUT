@@ -12,11 +12,13 @@ FILES = [
     {"path": "./X/a.txt", "mode": 0o777, "content": "abcdefg..."},
     {"path": "./X/b.txt", "mode": 0o777, "content": "abcdefg..."},
     {"path": "./X/Y1/pi.txt", "mode": 0o777, "content": "3.14159..."},
+    {"path": "./X/Y1/Y11/tmp.txt", "mode": 0o777, "content": ""},
+    {"path": "./X/Y1/Y12/empty.jpg", "mode": 0o777, "content": ""},
     {"path": "./X/Y2/e.txt", "mode": 0o777, "content": "1.619..."},
 ]
 
 
-class TestEnvManager():
+class TestEnvManager:
     def __init__(self, dirs: list = DIRS, files: list = FILES) -> None:
         self.dirs = dirs
         self.files = files

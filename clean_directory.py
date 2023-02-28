@@ -16,7 +16,7 @@ class Md5FilesOrganizer:
         self._handle_files(root_dir, files_by_md5)
         return files_by_md5
 
-    def _handle_files(self, root_dir, files_by_md5) -> None:
+    def _handle_files(self, root_dir: str, files_by_md5: dict) -> None:
         for f in os.listdir(root_dir):
             file_path = os.path.join(root_dir, f)
             if os.path.isfile(file_path):
@@ -24,10 +24,9 @@ class Md5FilesOrganizer:
             elif os.path.isdir(file_path):
                 self._handle_single_dir(files_by_md5, file_path)
             else:
-                print(f"Object {file_path} could not be recognised.")
-                exit(1)
+                self._handle_unknown_obj(file_path)
 
-    def _handle_single_file(self, files_by_md5, file_path):
+    def _handle_single_file(self, files_by_md5: dict, file_path: str):
         with open(file_path, "r") as file_handle:
             encoded_file = file_handle.read().encode(
                 self.files_encoding_format
@@ -35,7 +34,7 @@ class Md5FilesOrganizer:
             md5_hash = hashlib.md5(encoded_file).hexdigest()
             self._update_files_by_md5_dict(files_by_md5, file_path, md5_hash)
 
-    def _handle_single_dir(self, files_by_md5, file_path):
+    def _handle_single_dir(self, files_by_md5: dict, file_path: str):
         subdir_files_by_md5 = self.organize_files(file_path)
         for md5_hash in subdir_files_by_md5:
             for md5_hash_file_path in subdir_files_by_md5[md5_hash]:
@@ -43,7 +42,13 @@ class Md5FilesOrganizer:
                     files_by_md5, md5_hash_file_path, md5_hash
                 )
 
-    def _update_files_by_md5_dict(self, files_by_md5, file_path, md5_hash):
+    def _handle_unknown_obj(self, file_path: str):
+        print(f"Object {file_path} could not be recognised.")
+        exit(1)
+
+    def _update_files_by_md5_dict(
+        self, files_by_md5: dict, file_path: str, md5_hash: str
+    ):
         if md5_hash not in files_by_md5.keys():
             files_by_md5[md5_hash] = []
         files_by_md5[md5_hash].append(file_path)
@@ -73,18 +78,16 @@ class EmptyFilesRemover:
                 self._handle_unknown_obj(file_path)
         return empty_files
 
-    def _handle_file(self, empty_files, file_path):
+    def _handle_file(self, empty_files: list, file_path: str):
         if os.path.getsize(file_path) == 0:
             empty_files.append(file_path)
 
-    def _handle_dir(self, empty_files, file_path):
+    def _handle_dir(self, empty_files: list, file_path: str):
         subdir_empty_files = self._find_empty_files(file_path)
-        subdir_empty_files = (
-                    subdir_empty_files if subdir_empty_files else []
-                )
+        subdir_empty_files = subdir_empty_files if subdir_empty_files else []
         empty_files += subdir_empty_files
 
-    def _handle_unknown_obj(self, file_path):
+    def _handle_unknown_obj(self, file_path: str):
         print(f"Object {file_path} could not be recognised.")
         exit(1)
 
