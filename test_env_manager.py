@@ -11,6 +11,8 @@ DIRS = [
 FILES = [
     {"path": "./X/a.txt", "mode": 0o777, "content": "abcdefg..."},
     {"path": "./X/b.txt", "mode": 0o777, "content": "abcdefg..."},
+    {"path": "./X/Y1/pi.txt", "mode": 0o777, "content": "3.14159..."},
+    {"path": "./X/Y2/e.txt", "mode": 0o777, "content": "1.619..."},
 ]
 
 
