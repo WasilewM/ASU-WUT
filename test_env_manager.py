@@ -59,12 +59,28 @@ class TestEnvManager:
         for file in reversed(self.dirs):
             try:
                 os.rmdir(file["path"])
+            except FileNotFoundError:
+                print(
+                    f"Directory {file['path']} not found - could "
+                    + "not delete it"
+                )
             except Exception as e:
-                print(e)
+                print(
+                    "An error occurred while trying to delete following "
+                    + f"directory {file['path']}: {e}"
+                )
 
     def _delete_files(self):
         for file in reversed(self.files):
             try:
                 os.remove(file["path"])
+            except FileNotFoundError:
+                print(
+                    f"File {file['path']} not found - could "
+                    + "not delete it"
+                )
             except Exception as e:
-                print(e)
+                print(
+                    "An error occurred while trying to delete following "
+                    + f"file {file['path']}: {e}"
+                )
