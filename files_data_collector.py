@@ -1,6 +1,6 @@
 import os
 import hashlib
-from files_data import FileData
+from file_data import FileData
 
 
 class FilesDataCollector:
