@@ -76,8 +76,7 @@ class TestEnvManager:
                 os.remove(file["path"])
             except FileNotFoundError:
                 print(
-                    f"File {file['path']} not found - could "
-                    + "not delete it"
+                    f"File {file['path']} not found - could " + "not delete it"
                 )
             except Exception as e:
                 print(

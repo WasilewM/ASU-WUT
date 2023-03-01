@@ -60,7 +60,6 @@ class EmptyFilesRemover:
 
     def remove_empty_files(self):
         empty_files = self._find_empty_files(self.root)
-        print(f"empty_files: {empty_files}")
         self._suggest_empty_files_removal(empty_files)
         user_answer = self._has_user_accepted_file_removal()
         if user_answer:
@@ -113,6 +112,17 @@ class EmptyFilesRemover:
             print(f"{file_path} has been removed")
 
 
+class FilesPermissionsUpdater:
+    def __init__(
+        self, root_dir: str = ".", expected_files_permissions: int = 0o777
+    ) -> None:
+        self.root = root_dir
+        self.expected_files_permissions = expected_files_permissions
+
+    def update_files_permissions(self) -> None:
+        pass
+
+
 def run(args: list) -> int:
     print("CWD: ", os.getcwd())
 
@@ -120,10 +130,9 @@ def run(args: list) -> int:
         print("Invalid number of provided arguments")
         return 1
 
-    files_by_md5 = Md5FilesOrganizer(args[1]).organize_files()
-    print(f"files_by_md5: {files_by_md5}")
-
+    Md5FilesOrganizer(args[1]).organize_files()
     EmptyFilesRemover(args[1]).remove_empty_files()
+    FilesPermissionsUpdater(args[1]).update_files_permissions()
 
 
 if __name__ == "__main__":
