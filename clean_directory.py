@@ -17,7 +17,7 @@ def run(args: list) -> int:
     print(files)
     organized_files = Md5FilesOrganizer(files).organize_files()
     print(organized_files)
-    EmptyFilesRemover(args[1]).remove_files()
+    EmptyFilesRemover(files).remove_files()
     FilesPermissionsUpdater(args[1]).update_files_permissions()
 
 
