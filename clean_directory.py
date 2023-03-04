@@ -13,12 +13,14 @@ def run(args: list) -> int:
         print("Invalid number of provided arguments")
         return 1
 
+    # files = FilesDataCollector(args[1]).get_files_data()
+    # # print(files)
+    # organized_files = Md5FilesOrganizer(files).organize_files()
+    # print(organized_files)
+    # EmptyFilesRemover(files).remove_files()
+
     files = FilesDataCollector(args[1]).get_files_data()
-    print(files)
-    organized_files = Md5FilesOrganizer(files).organize_files()
-    print(organized_files)
-    EmptyFilesRemover(files).remove_files()
-    FilesPermissionsUpdater(args[1]).update_files_permissions()
+    FilesPermissionsUpdater(files).update_files_permissions()
 
 
 if __name__ == "__main__":

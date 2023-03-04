@@ -42,7 +42,7 @@ class FilesDataCollector:
 
     def _get_file_permissions(self, file_path: str) -> int:
         try:
-            return os.stat(file_path).st_mode
+            return int(oct(os.stat(file_path).st_mode)[-3:])
         except Exception as e:
             print(f"An error occurred while processing file {file_path}: {e}")
 

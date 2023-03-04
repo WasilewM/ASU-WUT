@@ -14,9 +14,7 @@ class EmptyFilesRemover:
 
     def _find_empty_files(self) -> list:
         return [
-            file
-            for file in self.files
-            if os.path.getsize(file.file_path) == 0
+            file for file in self.files if os.path.getsize(file.file_path) == 0
         ]
 
     def _suggest_files_removal(self, files: list) -> None:
