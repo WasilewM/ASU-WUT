@@ -28,7 +28,10 @@ class FilesDataCollector:
     def _handle_file(self, files: list, file_path: str) -> None:
         md5_hash = self._get_file_md5_hash(file_path)
         permissions = self._get_file_permissions(file_path)
-        files.append(FileData(file_path, md5_hash, permissions))
+        creation_timestamp = self._get_file_creation_timestamp(file_path)
+        files.append(
+            FileData(file_path, md5_hash, permissions, creation_timestamp)
+        )
 
     def _get_file_md5_hash(self, file_path: str):
         try:
@@ -45,6 +48,9 @@ class FilesDataCollector:
             return int(oct(os.stat(file_path).st_mode)[-3:])
         except Exception as e:
             print(f"An error occurred while processing file {file_path}: {e}")
+
+    def _get_file_creation_timestamp(self, file_path: str) -> float:
+        return os.stat(file_path).st_ctime
 
     def _handle_dir(self, files: list, file_path: str):
         subdir_files = self._find_files(file_path)

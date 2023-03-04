@@ -1,4 +1,5 @@
 import os
+import time
 
 DIRS = [
     {"path": "./X", "mode": 0o777},
@@ -17,11 +18,19 @@ FILES = [
     {"path": "./X/Y2/e.txt", "mode": 0o644, "content": "1.619..."},
 ]
 
+FILES_CREATION_DELAY = 0.5
+
 
 class TestEnvManager:
-    def __init__(self, dirs: list = DIRS, files: list = FILES) -> None:
+    def __init__(
+        self,
+        dirs: list = DIRS,
+        files: list = FILES,
+        delay: float = FILES_CREATION_DELAY,
+    ) -> None:
         self.dirs = dirs
         self.files = files
+        self.delay = delay
 
     def prepare_env(self):
         self._delete_old_env()
@@ -43,6 +52,8 @@ class TestEnvManager:
         for dir in self.dirs:
             try:
                 os.mkdir(dir["path"], dir["mode"])
+                # delay is needed to allow for the deletion of newer files
+                time.sleep(self.delay)
             except Exception as e:
                 print(e)
 
@@ -52,6 +63,8 @@ class TestEnvManager:
                 with open(file["path"], "w") as f:
                     f.write(file["content"])
                 os.chmod(file["path"], file["mode"])
+                # delay is needed to allow for the deletion of newer files
+                time.sleep(self.delay)
             except Exception as e:
                 print(e)
 
