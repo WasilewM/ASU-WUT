@@ -1,21 +1,15 @@
 import os
 
 
-class EmptyFilesRemover:
+class FilesRemover:
     def __init__(self, files: list) -> None:
         self.files = files
 
     def remove_files(self):
-        empty_files = self._find_empty_files()
-        self._suggest_files_removal(empty_files)
+        self._suggest_files_removal(self.files)
         user_answer = self._has_user_accepted_file_removal()
         if user_answer:
-            self._delete_files(empty_files)
-
-    def _find_empty_files(self) -> list:
-        return [
-            file for file in self.files if os.path.getsize(file.file_path) == 0
-        ]
+            self._delete_files(self.files)
 
     def _suggest_files_removal(self, files: list) -> None:
         print("Do you want to delete following empty files?")
