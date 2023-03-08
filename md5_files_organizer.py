@@ -5,15 +5,13 @@ class Md5FilesOrganizer:
     def __init__(self, files: list) -> None:
         self.files = files
 
-    def organize_files(self) -> dict:
+    def get_organized_files(self) -> dict:
         files_by_md5 = dict()
         for file in self.files:
             self._update_files_by_md5_dict(files_by_md5, file)
         return files_by_md5
 
-    def get_unnecessary_files_from_duplicated(
-        self, organized_files: dict
-    ) -> list:
+    def get_duplicated_files(self, organized_files: dict) -> list:
         unnecessary_files = []
         for md5_hash in organized_files:
             current_hash_unnecessary = self._get_unnecessary_files_from_list(
