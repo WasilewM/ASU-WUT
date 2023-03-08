@@ -1,9 +1,9 @@
 import sys
-from test_env_manager import TestEnvManager
+from test_files_creator import TestFilesCreator
 
 
 def run(args):
-    tem = TestEnvManager()
+    tem = TestFilesCreator()
     tem.prepare_env()
 
 

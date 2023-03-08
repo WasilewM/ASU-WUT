@@ -25,7 +25,7 @@ FILES = [
 FILES_CREATION_DELAY = 0.5
 
 
-class TestEnvManager:
+class TestFilesCreator:
     def __init__(
         self,
         dirs: list = DIRS,
@@ -37,66 +37,30 @@ class TestEnvManager:
         self.delay = delay
 
     def prepare_env(self):
-        self._delete_old_env()
-        self._prepare_new_env()
-
-    def _delete_old_env(self):
-        self._delete_files
-        self._delete_dirs()
-
-    def _prepare_new_env(self):
+        print("Preparing test files")
         self._create_dirs()
         self._create_files()
 
-    def delete_env(self):
-        self._delete_files()
-        self._delete_dirs()
-
     def _create_dirs(self):
+        print("Creating directories...")
         for dir in self.dirs:
             try:
                 os.mkdir(dir["path"], dir["mode"])
+                print(f"Created {dir['path']}")
                 # delay is needed to allow for the deletion of newer files
                 time.sleep(self.delay)
             except Exception as e:
                 print(e)
 
     def _create_files(self):
+        print("Creating files...")
         for file in self.files:
             try:
                 with open(file["path"], "w") as f:
                     f.write(file["content"])
                 os.chmod(file["path"], file["mode"])
+                print(f"Created {file['path']}")
                 # delay is needed to allow for the deletion of newer files
                 time.sleep(self.delay)
             except Exception as e:
                 print(e)
-
-    def _delete_dirs(self):
-        for file in reversed(self.dirs):
-            try:
-                os.rmdir(file["path"])
-            except FileNotFoundError:
-                print(
-                    f"Directory {file['path']} not found - could "
-                    + "not delete it"
-                )
-            except Exception as e:
-                print(
-                    "An error occurred while trying to delete following "
-                    + f"directory {file['path']}: {e}"
-                )
-
-    def _delete_files(self):
-        for file in reversed(self.files):
-            try:
-                os.remove(file["path"])
-            except FileNotFoundError:
-                print(
-                    f"File {file['path']} not found - could " + "not delete it"
-                )
-            except Exception as e:
-                print(
-                    "An error occurred while trying to delete following "
-                    + f"file {file['path']}: {e}"
-                )
