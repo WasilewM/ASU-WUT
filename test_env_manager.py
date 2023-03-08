@@ -7,6 +7,7 @@ DIRS = [
     {"path": "./X/Y1/Y11", "mode": 0o777},
     {"path": "./X/Y1/Y12", "mode": 0o777},
     {"path": "./X/Y2", "mode": 0o777},
+    {"path": "./X/Y2/Y12", "mode": 0o777},
 ]
 
 FILES = [
@@ -16,6 +17,9 @@ FILES = [
     {"path": "./X/Y1/Y11/tmp.txt", "mode": 0o777, "content": ""},
     {"path": "./X/Y1/Y12/empty.jpg", "mode": 0o777, "content": ""},
     {"path": "./X/Y2/e.txt", "mode": 0o644, "content": "1.619..."},
+    {"path": "./X/Y2/Y12/f?f#$f.txt", "mode": 0o614, "content": "1.619A.."},
+    {"path": "./X/Y2/Y12/g g.txt", "mode": 0o612, "content": "1.619AB."},
+    {"path": './X/Y2/Y12/h"h".txt', "mode": 0o613, "content": "1.619ABC"},
 ]
 
 FILES_CREATION_DELAY = 0.5
