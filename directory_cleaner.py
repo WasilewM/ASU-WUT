@@ -8,21 +8,25 @@ from files_remover import FilesRemover
 class DirectoryCleaner:
     def __init__(self, root_dir: str = "."):
         self.root_dir = root_dir
+        self.files_collector = FilesDataCollector(self.root_dir)
 
     def run(self) -> None:
-        collector = FilesDataCollector(self.root_dir)
-        files = collector.get_files_data()
+        self._handle_duplicated_files_removal()
+        self._handle_empty_files_removal()
+        self._handle_files_permissions_update()
+
+    def _handle_duplicated_files_removal(self):
+        files = self.files_collector.get_files_data()
         md5_organizer = Md5FilesOrganizer(files)
         organized_files = md5_organizer.get_organized_files()
-        print(f"organized_files: {organized_files}\n")
         unnecessary_files = md5_organizer.get_duplicated_files(organized_files)
-        print(f"unnecessary_files: {unnecessary_files}\n")
         FilesRemover(unnecessary_files).remove_files()
 
-        files = collector.get_files_data()
+    def _handle_empty_files_removal(self):
+        files = self.files_collector.get_files_data()
         empty_files = EmptyFilesFinder(files).get_empty_files()
-        print(f"empty_files: {empty_files}\n")
         FilesRemover(empty_files).remove_files()
 
-        files = collector.get_files_data()
+    def _handle_files_permissions_update(self):
+        files = self.files_collector.get_files_data()
         FilesPermissionsUpdater(files).update_files_permissions()
