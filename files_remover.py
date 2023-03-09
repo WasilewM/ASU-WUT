@@ -12,7 +12,7 @@ class FilesRemover:
             self._delete_files(self.files)
 
     def _suggest_files_removal(self, files: list) -> None:
-        print("Do you want to delete following empty files?")
+        print("Do you want to delete following files?")
         for file in files:
             print(file.file_path)
         print("Y/N?")

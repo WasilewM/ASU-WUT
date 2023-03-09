@@ -22,7 +22,7 @@ FILES = [
     {"path": './X/Y2/Y12/h"h".txt', "mode": 0o613, "content": "1.619ABC"},
 ]
 
-FILES_CREATION_DELAY = 0.5
+FILES_CREATION_DELAY = 1
 
 
 class TestFilesCreator:

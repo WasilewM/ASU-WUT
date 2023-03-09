@@ -18,12 +18,17 @@ class DirectoryCleaner:
         self.files_collector = FilesDataCollector(self.root_dir)
 
     def run(self) -> None:
-        self._handle_duplicated_files_removal()
-        self._handle_empty_files_removal()
-        self._handle_files_permissions_update()
-        self._handle_files_renaming()
+        print("Directory Cleaning has started")
+        try:
+            self._handle_duplicated_files_removal()
+            self._handle_empty_files_removal()
+            self._handle_files_permissions_update()
+            self._handle_files_renaming()
+        except Exception as e:
+            print(f"Directory cleaning has failed with following error: {e}")
 
     def _handle_duplicated_files_removal(self):
+        print("-> Deleting duplicated files")
         files = self.files_collector.get_files_data()
         md5_organizer = Md5FilesOrganizer(files)
         organized_files = md5_organizer.get_organized_files()
@@ -31,17 +36,20 @@ class DirectoryCleaner:
         FilesRemover(unnecessary_files).remove_files()
 
     def _handle_empty_files_removal(self):
+        print("-> Deleting empty files")
         files = self.files_collector.get_files_data()
         empty_files = EmptyFilesFinder(files).get_empty_files()
         FilesRemover(empty_files).remove_files()
 
     def _handle_files_permissions_update(self):
+        print("-> Updating file permissions")
         files = self.files_collector.get_files_data()
         FilesPermissionsUpdater(
             files, EXPECTED_FILE_PERMISSIONS
         ).update_files_permissions()
 
     def _handle_files_renaming(self):
+        print("-> Renaming files with unwanted characters")
         files = self.files_collector.get_files_data()
         FilesRenamer(
             UNWANTED_CHARACTERS, UNWANTED_CHARACTERS_REPLACEMENT, files

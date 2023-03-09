@@ -24,6 +24,7 @@ class FilesRenamer:
             new_file_name += file_extension
             new_file_path = os.path.join(dirs, new_file_name)
             os.rename(file.file_path, new_file_path)
+            print(f"File {file.file_path} has been renamed to {new_file_path}")
 
     def _separate_file_name_from_extension(self, file_name: str) -> tuple:
         idx = len(file_name) - 1
