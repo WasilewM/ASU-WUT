@@ -11,6 +11,7 @@ from parameters import (
     UNWANTED_CHARACTERS,
     UNWANTED_CHARACTERS_REPLACEMENT,
     EXPECTED_FILE_PERMISSIONS,
+    TEMPORARY_FILES,
 )
 
 
@@ -48,7 +49,9 @@ class DirectoryCleaner:
     def _handle_temporary_files_removal(self) -> None:
         print("-> Deleting temporary files")
         files = self.files_collector.get_files_data()
-        temporary_files = TemporaryFilesFinder(files).find_files()
+        temporary_files = TemporaryFilesFinder(
+            files, TEMPORARY_FILES
+        ).find_files()
         FilesRemover(temporary_files).remove_files()
 
     def _handle_files_permissions_update(self) -> None:
