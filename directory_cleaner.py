@@ -1,11 +1,11 @@
-from files_data_collector import FilesDataCollector
-from md5_files_organizer import Md5FilesOrganizer
-from empty_files_finder import EmptyFilesFinder
-from files_permissions_updater import FilesPermissionsUpdater
-from files_remover import FilesRemover
-from files_renamer import FilesRenamer
-from files_relocator import FilesRelocator
-from temporary_files_finder import TemporaryFilesFinder
+from actions.files_data_collector import FilesDataCollector
+from actions.md5_files_organizer import Md5FilesOrganizer
+from actions.empty_files_finder import EmptyFilesFinder
+from actions.files_permissions_updater import FilesPermissionsUpdater
+from actions.files_remover import FilesRemover
+from actions.files_renamer import FilesRenamer
+from actions.files_relocator import FilesRelocator
+from actions.temporary_files_finder import TemporaryFilesFinder
 
 from parameters import (
     UNWANTED_CHARACTERS,
