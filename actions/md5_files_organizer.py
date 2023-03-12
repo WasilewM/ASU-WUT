@@ -17,8 +17,7 @@ class Md5FilesOrganizer:
             current_hash_unnecessary = self._get_unnecessary_files_from_list(
                 organized_files[md5_hash]
             )
-            if current_hash_unnecessary:
-                unnecessary_files += current_hash_unnecessary
+            unnecessary_files += current_hash_unnecessary
         return unnecessary_files
 
     def _get_unnecessary_files_from_list(self, files: list) -> list:
@@ -28,6 +27,7 @@ class Md5FilesOrganizer:
                 file for file in files if file.creation_timestamp > oldest
             ]
             return unnecessary_files
+        return []
 
     def _update_files_by_md5_dict(self, files_by_md5: dict, file: FileData):
         if file.md5_hash not in files_by_md5.keys():
