@@ -1,5 +1,5 @@
 from action_base_io import ActionBaseIO
-from file_data import FileData
+from files_data_collector import FileData
 import os
 
 

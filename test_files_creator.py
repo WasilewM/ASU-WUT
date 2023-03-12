@@ -37,12 +37,12 @@ class TestFilesCreator:
         self.files = files
         self.delay = delay
 
-    def prepare_env(self):
+    def prepare_env(self) -> None:
         print("Preparing test files")
         self._create_dirs()
         self._create_files()
 
-    def _create_dirs(self):
+    def _create_dirs(self) -> None:
         print("Creating directories...")
         for dir in self.dirs:
             try:
@@ -53,7 +53,7 @@ class TestFilesCreator:
             except Exception as e:
                 print(e)
 
-    def _create_files(self):
+    def _create_files(self) -> None:
         print("Creating files...")
         for file in self.files:
             try:

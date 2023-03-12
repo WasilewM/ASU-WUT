@@ -2,7 +2,7 @@ import sys
 from test_files_creator import TestFilesCreator
 
 
-def run(args):
+def run(args) -> None:
     tem = TestFilesCreator()
     tem.prepare_env()
 

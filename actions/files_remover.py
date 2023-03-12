@@ -6,7 +6,7 @@ class FilesRemover(ActionBaseIO):
     def __init__(self, files: list) -> None:
         self.files = files
 
-    def remove_files(self):
+    def remove_files(self) -> None:
         self._sugest_action_on_files(
             "Do you want to delete following files?", self.files
         )
