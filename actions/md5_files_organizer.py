@@ -1,4 +1,4 @@
-from files_data_collector import FileData
+from .files_data_collector import FileData
 
 
 class Md5FilesOrganizer:
