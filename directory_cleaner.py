@@ -6,6 +6,9 @@ from actions.files_remover import FilesRemover
 from actions.files_renamer import FilesRenamer
 from actions.files_relocator import FilesRelocator
 from actions.temporary_files_finder import TemporaryFilesFinder
+from actions.duplicated_filename_files_finder import (
+    DuplicatedFilenameFilesFinder,
+)
 
 from parameters import (
     UNWANTED_CHARACTERS,
@@ -23,12 +26,13 @@ class DirectoryCleaner:
     def run(self) -> None:
         print("Directory Cleaning has started")
         try:
-            self._handle_duplicated_files_removal()
-            self._handle_empty_files_removal()
-            self._handle_temporary_files_removal()
-            self._handle_files_permissions_update()
-            self._handle_files_renaming()
-            self._handle_files_relocation()
+            # self._handle_duplicated_files_removal()
+            # self._handle_empty_files_removal()
+            # self._handle_temporary_files_removal()
+            self._handle_duplicated_filenames_removal()
+            # self._handle_files_permissions_update()
+            # self._handle_files_renaming()
+            # self._handle_files_relocation()
         except Exception as e:
             print(f"Directory cleaning has failed with following error: {e}")
 
@@ -53,6 +57,16 @@ class DirectoryCleaner:
             files, TEMPORARY_FILES
         ).find_files()
         FilesRemover(temporary_files).remove_files()
+
+    def _handle_duplicated_filenames_removal(self) -> None:
+        print("-> Deleting duplicated filenames files")
+        files = self.files_collector.get_files_data()
+        duplicated_filenames_finder = DuplicatedFilenameFilesFinder(files)
+        duplicated_filenames_files = duplicated_filenames_finder.find_files()
+        unnecessary_files = duplicated_filenames_finder.get_old_files(
+            duplicated_filenames_files
+        )
+        FilesRemover(unnecessary_files).remove_files()
 
     def _handle_files_permissions_update(self) -> None:
         print("-> Updating file permissions")
