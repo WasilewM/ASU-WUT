@@ -17,10 +17,10 @@ class DuplicatedFilenameFilesFinder:
     def get_old_files(self, files: dict) -> list:
         unnecessary_files = []
         for filename in files:
-            current_hash_unnecessary = self._get_old_files_from_list(
+            current_filename_unnecessary = self._get_old_files_from_list(
                 files[filename]
             )
-            unnecessary_files += current_hash_unnecessary
+            unnecessary_files += current_filename_unnecessary
         return unnecessary_files
 
     def _get_old_files_from_list(self, files: list) -> list:

@@ -1,20 +1,31 @@
-from .action_base_io import ActionBaseIO
+from .action_base_io import ActionBaseIO, UserActionAnswerEnum
+from .files_data_collector import FileData
 import os
 
 
 class FilesRemover(ActionBaseIO):
     def __init__(self, files: list) -> None:
         self.files = files
+        self.delete_all = False
 
     def remove_files(self) -> None:
-        self._sugest_action_on_files(
-            "Do you want to delete following files?", self.files
-        )
-        user_answer = self._has_user_accepted_the_action()
-        if user_answer:
-            self._delete_files(self.files)
+        for file in self.files:
+            if not self.delete_all:
+                self._handle_individual_files_removal(file)
+            else:
+                self._remove_file(file)
 
-    def _delete_files(self, files: list) -> None:
-        for file in files:
-            os.remove(file.file_path)
-            print(f"{file.file_path} has been removed")
+    def _handle_individual_files_removal(self, file: FileData):
+        self._sugest_action_on_files(
+                    "Do you want to delete following file?", file.file_path
+                )
+        user_answer = self._has_user_accepted_the_action()
+        if user_answer == UserActionAnswerEnum.YES:
+            self._remove_file(file)
+        elif user_answer == UserActionAnswerEnum.APPLY_TO_ALL:
+            self.delete_all = True
+            self._remove_file(file)
+
+    def _remove_file(self, file: FileData):
+        os.remove(file.file_path)
+        print(f"{file.file_path} has been removed")

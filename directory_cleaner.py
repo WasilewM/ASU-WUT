@@ -26,13 +26,13 @@ class DirectoryCleaner:
     def run(self) -> None:
         print("Directory Cleaning has started")
         try:
-            # self._handle_duplicated_files_removal()
-            # self._handle_empty_files_removal()
-            # self._handle_temporary_files_removal()
+            self._handle_duplicated_files_removal()
+            self._handle_empty_files_removal()
+            self._handle_temporary_files_removal()
             self._handle_duplicated_filenames_removal()
-            # self._handle_files_permissions_update()
-            # self._handle_files_renaming()
-            # self._handle_files_relocation()
+            self._handle_files_permissions_update()
+            self._handle_files_renaming()
+            self._handle_files_relocation()
         except Exception as e:
             print(f"Directory cleaning has failed with following error: {e}")
 

@@ -1,19 +1,30 @@
+from enum import Enum
+
+
+class UserActionAnswerEnum(Enum):
+    NO = 0
+    YES = 1
+    APPLY_TO_ALL = 2
+
+
 class ActionBaseIO:
     def __init__(self) -> None:
         pass
 
-    def _sugest_action_on_files(self, question: str, files: list) -> None:
+    def _sugest_action_on_files(self, question: str, file_path: str) -> None:
         print(question)
-        for file in files:
-            print(file.file_path)
-        print("Y/N?")
+        print(file_path)
+        print("Y/N/ALL?")
 
-    def _has_user_accepted_the_action(self) -> bool:
+    def _has_user_accepted_the_action(self) -> UserActionAnswerEnum:
         user_answer = input()
-        if user_answer in ("y", "Y"):
-            return True
-        elif user_answer in ("n", "N"):
-            return False
+        print(user_answer)
+        if user_answer.upper() == "N":
+            return UserActionAnswerEnum.NO
+        elif user_answer.upper() == "Y":
+            return UserActionAnswerEnum.YES
+        elif user_answer.upper() == "ALL":
+            return UserActionAnswerEnum.APPLY_TO_ALL
         else:
             print("Invalid option. Aborting the script...")
             exit(1)
