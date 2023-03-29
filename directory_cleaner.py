@@ -42,13 +42,13 @@ class DirectoryCleaner:
         md5_organizer = Md5FilesOrganizer(files)
         organized_files = md5_organizer.get_organized_files()
         unnecessary_files = md5_organizer.get_duplicated_files(organized_files)
-        FilesRemover(unnecessary_files).remove_files()
+        FilesRemover().run(unnecessary_files)
 
     def _handle_empty_files_removal(self) -> None:
         print("-> Deleting empty files")
         files = self.files_collector.get_files_data()
         empty_files = EmptyFilesFinder(files).find_files()
-        FilesRemover(empty_files).remove_files()
+        FilesRemover().run(empty_files)
 
     def _handle_temporary_files_removal(self) -> None:
         print("-> Deleting temporary files")
@@ -56,7 +56,7 @@ class DirectoryCleaner:
         temporary_files = TemporaryFilesFinder(
             files, TEMPORARY_FILES
         ).find_files()
-        FilesRemover(temporary_files).remove_files()
+        FilesRemover().run(temporary_files)
 
     def _handle_duplicated_filenames_removal(self) -> None:
         print("-> Deleting duplicated filenames files")
@@ -66,14 +66,12 @@ class DirectoryCleaner:
         unnecessary_files = duplicated_filenames_finder.get_old_files(
             duplicated_filenames_files
         )
-        FilesRemover(unnecessary_files).remove_files()
+        FilesRemover().run(unnecessary_files)
 
     def _handle_files_permissions_update(self) -> None:
         print("-> Updating file permissions")
         files = self.files_collector.get_files_data()
-        FilesPermissionsUpdater(
-            files, EXPECTED_FILE_PERMISSIONS
-        ).update_files_permissions()
+        FilesPermissionsUpdater(EXPECTED_FILE_PERMISSIONS).run(files)
 
     def _handle_files_renaming(self) -> None:
         print("-> Renaming files with unwanted characters")
