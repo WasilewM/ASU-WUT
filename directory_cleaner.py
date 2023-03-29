@@ -83,4 +83,4 @@ class DirectoryCleaner:
     def _handle_files_relocation(self) -> None:
         print(f"-> Relocation files to directory {self.root_dir}")
         files = self.files_collector.get_files_data()
-        FilesRelocator(files, self.root_dir).relocate_files()
+        FilesRelocator(self.root_dir).run(files)
