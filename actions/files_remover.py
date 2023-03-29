@@ -4,10 +4,7 @@ import os
 
 
 class FilesRemover(ActionBase):
-    def __init__(self) -> None:
-        self.apply_action_to_all = False
-
-    def _ask_for_user_decision(self, file):
+    def _ask_for_user_decision(self, file: FileData):
         self._sugest_action_on_files(
             "Do you want to delete following file?", file.file_path
         )

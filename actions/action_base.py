@@ -10,7 +10,7 @@ class UserActionAnswerEnum(Enum):
 
 class ActionBase:
     def __init__(self) -> None:
-        pass
+        self.apply_action_to_all = False
 
     def run(self, files: list) -> None:
         for file in files:

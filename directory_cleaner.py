@@ -76,9 +76,9 @@ class DirectoryCleaner:
     def _handle_files_renaming(self) -> None:
         print("-> Renaming files with unwanted characters")
         files = self.files_collector.get_files_data()
-        FilesRenamer(
-            UNWANTED_CHARACTERS, UNWANTED_CHARACTERS_REPLACEMENT, files
-        ).replace_unwanted_chars()
+        FilesRenamer(UNWANTED_CHARACTERS, UNWANTED_CHARACTERS_REPLACEMENT).run(
+            files
+        )
 
     def _handle_files_relocation(self) -> None:
         print(f"-> Relocation files to directory {self.root_dir}")
