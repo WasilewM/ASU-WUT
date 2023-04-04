@@ -23,6 +23,8 @@ FILES = [
     {"path": "./X/Y2/Y12/f?f#$f.txt", "mode": 0o614, "content": "1.619A.."},
     {"path": "./X/Y2/Y12/g g.txt", "mode": 0o612, "content": "1.619AB."},
     {"path": './X/Y2/Y12/h"h".txt', "mode": 0o613, "content": "1.619ABC"},
+    {"path": './X/Y2/Y12/h"i".back', "mode": 0o613, "content": "1.619ABCD"},
+    {"path": './X/Y2/Y12/xyz.txt.back', "mode": 0o613, "content": "1.619ABCDE"}
 ]
 
 FILES_CREATION_DELAY = 1
